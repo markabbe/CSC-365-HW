@@ -7,7 +7,6 @@ class BST {
         printAll(root);
     }
 
-    //In order traversal
     void printAll(Node t){
         if(t == null){
             return;
@@ -17,7 +16,6 @@ class BST {
         printAll(t.right);
     }
 
-    //Return lowest numerical key
     float getLowest(){
         if(root == null){
             throw new NoSuchElementException();
@@ -27,6 +25,42 @@ class BST {
 
         while(t.left != null){
             t = t.left;
+        }
+
+        return t.key;
+    }
+
+    private Node predecessor(Node t){
+        if(t == null){
+            return null;
+        }
+
+        if(t.left != null){
+            t = t.left;
+            while(t.right != null){
+                t = t.right;
+            }
+            return t;
+        }
+        else{
+            Node parent = t.parent;
+            while(parent != null && t != parent.right){
+                t = parent;
+                parent = parent.parent;
+            }
+            return parent;
+        }
+    }
+
+    float getHighest(){
+        if(root == null){
+            throw new NoSuchElementException();
+        }
+
+        Node t = root;
+
+        while(t.right != null){
+            t = t.right;
         }
 
         return t.key;
@@ -46,7 +80,7 @@ class BST {
         }
         else{
             Node parent = t.parent;
-            while(parent != null && t != parent.left){
+            while(parent != null && t == parent.right){
                 t = parent;
                 parent = parent.parent;
             }
@@ -54,12 +88,9 @@ class BST {
         }
     }
 
-    //Node class
     static class Node {
         float key;
-
         Node left, right, parent;
-
         boolean isRed;
     }
 }
